@@ -6,7 +6,11 @@ def draw_nn(nn):
     ax.set_aspect('equal')
     ax.axis('off')
 
-    layer_sizes = nn.layers
+    layer_sizes = []
+    for i in range(0, len(nn), 2):
+        layer_sizes.append(nn[i].input_size)
+        if i == len(nn) - 1 or i == len(nn) - 2:
+            layer_sizes.append(nn[i].output_size)
     v_spacing = 1 / float(max(layer_sizes))
     h_spacing = 1 / float(len(layer_sizes))
 
