@@ -1,9 +1,6 @@
 import matplotlib.pyplot as plt
 from IPython.display import clear_output
 
-clear_output(wait=True)
-
-
 
 def predict(network, x):
     y_pred = x
@@ -12,7 +9,7 @@ def predict(network, x):
     return y_pred
 
 
-def train(network, loss, loss_derivative, x_train, y_train, optim, graph=True, epochs=1000, learning_rate=0.01):
+def train(network, loss, loss_derivative, x_train, y_train, optim, epochs=1000, learning_rate=0.01):
     history = []
     for e in range(epochs):
         error = 0
@@ -26,12 +23,9 @@ def train(network, loss, loss_derivative, x_train, y_train, optim, graph=True, e
                 grad = layer.backward(grad, learning_rate, e, optim)
         error /= len(x_train)
         history.append(error)
-        print(f"Epoch: {e}, Error: {error}")
+        if e % 100 == 0:
+            print(f"Epoch: {e}, Loss: {error}, % of epochs: {round(e/epochs, 2) * 100}%")
+        clear_output(wait=True)
+    print(f"Final Loss = {error}")
 
-    if graph:
-
-        plt.plot(history[1:])
-        plt.xlabel("Epoch")
-        plt.ylabel("Loss")
-        plt.title("Loss during training")
-        plt.show()
+    return history

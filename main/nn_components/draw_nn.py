@@ -31,6 +31,17 @@ def draw_nn(nn):
                                   c='green')
                 ax.add_artist(line)
 
+    output_layer_index = len(layer_sizes) - 1
+    for k in range(layer_sizes[output_layer_index]):
+        ax.text(output_layer_index * h_spacing + 0.15, -v_spacing * (k - (layer_sizes[output_layer_index] - 1) / 2),
+                f'output y{k + 1}', horizontalalignment='center', verticalalignment='center', fontsize=12, color='black')
+
+    output_layer_index = 0
+    for k in range(layer_sizes[output_layer_index]):
+        ax.text(output_layer_index * h_spacing - 0.15, -v_spacing * (k - (layer_sizes[output_layer_index] - 1) / 2),
+                f'input x{k + 1}', horizontalalignment='center', verticalalignment='center', fontsize=12,
+                color='black')
+
     ax.set_xlim(-0.9, 2)
     ax.set_ylim(-0.8, 0.5)
     plt.subplots_adjust(left=0.01, right=0.95 * 2, top=0.95, bottom=0.05 * 2)
