@@ -1,4 +1,4 @@
-import matplotlib.pyplot as plt
+import numpy as np
 from IPython.display import clear_output
 
 
@@ -21,6 +21,9 @@ def train(network, loss, loss_derivative, x_train, y_train, optim, epochs=1000, 
             grad = loss_derivative(y, output)
             for layer in reversed(network):
                 grad = layer.backward(grad, learning_rate, e, optim)
+                if np.any(np.isnan(grad)) or np.any(np.isinf(grad)):
+                    print("Gradient is nan or inf")
+
         error /= len(x_train)
         history.append(error)
         if e % 100 == 0:
