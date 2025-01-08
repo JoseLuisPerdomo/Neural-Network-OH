@@ -19,17 +19,20 @@ def progress_bar(iteration, total, length=20):
 
 
 def train(network, loss, x_train, y_train, x_val=None, y_val=None, epochs=100, batch_size=1):
-    #loader = Loader(x_train, y_train, batch_size=batch_size, shuffle=False)
+    loader = Loader(x_train, y_train, batch_size=batch_size, shuffle=False)
     history = []
 
     for e in range(epochs):
         error = 0
-        for x, y in zip(x_train, y_train):
+        for x, y in loader:
             output = predict(network, x)
+            print(f"Y prediction SHAPE: {output.shape}")
 
             error += loss(y, output)
 
             grad = clip_gradient(loss.derivative(y, output))
+
+            print(f"Gradient Loss Shape: {grad.shape}")
 
             for layer in reversed(network):
                 grad = clip_gradient(layer.backward(grad, e, layer.optimizer))
@@ -56,14 +59,14 @@ def train(network, loss, x_train, y_train, x_val=None, y_val=None, epochs=100, b
 
 
 def test_nn(nn, x_test, y_test, batch_size=1, loss=None):
-    #loader = Loader(x_test, y_test, batch_size=batch_size, shuffle=False)
+    loader = Loader(x_test, y_test, batch_size=batch_size, shuffle=False)
     correct_predictions = 0
     total_predictions = len(x_test)
 
     y_pred = []
     y_true = []
 
-    for x, y in zip(x_test, y_test):
+    for x, y in loader:
         output = predict(nn, x)
         predicted_class = np.argmax(output)
         true_class = np.argmax(y)
@@ -85,23 +88,23 @@ def test_nn(nn, x_test, y_test, batch_size=1, loss=None):
 
 
 def test_loss(nn, loss, x_test, y_test, batch_size=1):
-    #loader = Loader(x_test, y_test, batch_size=batch_size, shuffle=False)
+    loader = Loader(x_test, y_test, batch_size=batch_size, shuffle=False)
     error = 0
-    for x, y in zip(x_test, y_test):
+    for x, y in loader:
         output = predict(nn, x)
 
         error += loss(y, output)
-    error /= len(x_test)
+    error /= len(loader)
     print(f"Loss in test = {error}")
     return error
 
 
 def validation_accuracy(nn, x_val, y_val, batch_size=1):
-    #loader = Loader(x_val, y_val, batch_size=batch_size, shuffle=False)
+    loader = Loader(x_val, y_val, batch_size=batch_size, shuffle=False)
     correct_predictions = 0
     total_predictions = len(x_val)
 
-    for x, y in zip(x_val, y_val):
+    for x, y in loader:
         output = predict(nn, x)
         predicted_class = np.argmax(output)
         true_class = np.argmax(y)
