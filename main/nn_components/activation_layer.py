@@ -7,10 +7,11 @@ class Activation(Layer):
         super().__init__()
         self.activation = activation
         self.activation_prime = activation_derivative
+        self.optimizer = None
 
     def forward(self, input):
         self.input = input
         return self.activation(self.input)
 
-    def backward(self, output_gradient, learning_rate, t, optim):
+    def backward(self, output_gradient, t, optimizer):
         return np.multiply(output_gradient, self.activation_prime(self.input))
