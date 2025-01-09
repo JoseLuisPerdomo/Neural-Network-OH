@@ -17,7 +17,7 @@ class FullyConnectedLayer(Layer):
         self.input = input
         return np.dot(self.weights, self.input) + self.bias
 
-    def backward(self, output_gradient, t, optim):
+    def backward(self, output_gradient, optim):
         weights_gradient = np.dot(output_gradient, self.input.T)
 
         self.weights, self.bias = optim.update(

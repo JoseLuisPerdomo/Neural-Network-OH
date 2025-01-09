@@ -2,7 +2,6 @@ import numpy as np
 from IPython.display import clear_output
 from main.nn_components.optimazers import initialize_optimizer
 from main.nn_components.network_layer import FullyConnectedLayer
-from main.nn_components.loader import Loader
 
 
 def predict(network, x):
@@ -18,8 +17,7 @@ def progress_bar(iteration, total, length=20):
     return f"[{bar}]"
 
 
-def train(network, loss, x_train, y_train, x_val=None, y_val=None, epochs=100, batch_size=1):
-    #loader = Loader(x_train, y_train, batch_size=batch_size, shuffle=False)
+def train(network, loss, x_train, y_train, x_val=None, y_val=None, epochs=100):
     history = []
 
     for e in range(epochs):
@@ -55,8 +53,7 @@ def train(network, loss, x_train, y_train, x_val=None, y_val=None, epochs=100, b
     return history
 
 
-def test_nn(nn, x_test, y_test, batch_size=1, loss=None):
-    #loader = Loader(x_test, y_test, batch_size=batch_size, shuffle=False)
+def test_nn(nn, x_test, y_test, loss=None):
     correct_predictions = 0
     total_predictions = len(x_test)
 
@@ -78,14 +75,13 @@ def test_nn(nn, x_test, y_test, batch_size=1, loss=None):
     loss_message = ""
 
     if loss is not None:
-        error = test_loss(nn, loss, x_test, y_test, batch_size=batch_size)
+        error = test_loss(nn, loss, x_test, y_test)
         loss_message = f'Loss: {error}, '
     print(f'{loss_message}Accuracy: {round(accuracy * 100, 2)}%')
     return y_true, y_pred
 
 
-def test_loss(nn, loss, x_test, y_test, batch_size=1):
-    #loader = Loader(x_test, y_test, batch_size=batch_size, shuffle=False)
+def test_loss(nn, loss, x_test, y_test):
     error = 0
     for x, y in zip(x_test, y_test):
         output = predict(nn, x)
@@ -96,8 +92,7 @@ def test_loss(nn, loss, x_test, y_test, batch_size=1):
     return error
 
 
-def validation_accuracy(nn, x_val, y_val, batch_size=1):
-    #loader = Loader(x_val, y_val, batch_size=batch_size, shuffle=False)
+def validation_accuracy(nn, x_val, y_val):
     correct_predictions = 0
     total_predictions = len(x_val)
 

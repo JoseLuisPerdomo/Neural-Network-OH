@@ -6,5 +6,5 @@ class Layer:
     def forward(self, input):
         pass
 
-    def backward(self, output_gradient, t, optim):
+    def backward(self, output_gradient, optim):
         pass

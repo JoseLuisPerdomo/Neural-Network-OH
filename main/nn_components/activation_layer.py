@@ -13,5 +13,5 @@ class Activation(Layer):
         self.input = input
         return self.activation(self.input)
 
-    def backward(self, output_gradient, t, optimizer):
+    def backward(self, output_gradient, optimizer):
         return np.multiply(output_gradient, self.activation_prime(self.input))
