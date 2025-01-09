@@ -21,9 +21,13 @@ class Convolutional(Layer):
     def forward(self, input):
         self.input = input
         self.output = np.copy(self.bias)
+
+        # Asegurarse de que input[j] tiene la forma (height, width) y weight[i, j] es (kernel_size, kernel_size)
         for i in range(self.depth):
             for j in range(self.input_depth):
-                self.output[i] += signal.correlate2d(self.input[j], self.weights[i, j], "valid")
+                # Realizamos la correlación 2D de cada canal de entrada con su respectivo kernel
+                self.output[i] += signal.correlate2d(self.input[j], self.weights[i, j], mode="valid")
+
         return self.output
 
     def backward(self, output_gradient, optim):

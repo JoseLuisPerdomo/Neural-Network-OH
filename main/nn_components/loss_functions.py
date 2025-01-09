@@ -20,12 +20,10 @@ class CrossEntropyLoss:
         pass
 
     def __call__(self, y_true, y_pred):
-        print(f"y_true shape: {y_true.shape}, y_pred shape: {y_pred.shape}")
         epsilon = 1e-15
         y_pred = np.clip(y_pred, epsilon, 1 - epsilon)
         return -np.sum(y_true * np.log(y_pred))
 
     @staticmethod
     def derivative(y_true, y_pred):
-        print(f"y_true shape: {y_true.shape}, y_pred shape: {y_pred.shape}")
         return y_pred - y_true

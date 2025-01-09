@@ -30,7 +30,7 @@ def train(network, loss, x_train, y_train, x_val=None, y_val=None, epochs=100):
             grad = clip_gradient(loss.derivative(y, output))
 
             for layer in reversed(network):
-                grad = clip_gradient(layer.backward(grad, e, layer.optimizer))
+                grad = clip_gradient(layer.backward(grad, layer.optimizer))
                 if np.any(np.isinf(grad)):
                     print("Gradient is inf")
 
